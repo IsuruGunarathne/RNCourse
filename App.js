@@ -30,11 +30,18 @@ export default function App() {
 
       </View>
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal) => <Text key={goal} style={styles.goalItem}>{goal}</Text>)}
+        {courseGoals.map((goal) =>
+        <View key={goal} style={styles.goalItem}> 
+          {/* this view is used because in IOS you can't set border radius for text */}
+          <Text style={styles.goalText}>{goal}</Text>
+        </View>
+        )}        
       </View>
     </View>
   );
 }
+
+// this looks like css but it's not. It's a javascript object. Styles don't cascade in react native
 
 const styles = StyleSheet.create({
   container: {
@@ -72,6 +79,10 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     borderRadius: 6,
+    color: 'white',
+  },
+
+  goalText:{
     color: 'white',
   }
 });
