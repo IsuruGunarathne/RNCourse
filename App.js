@@ -6,13 +6,14 @@ import { useState } from 'react';
 export default function App() {
 
   const [enteredGoalText, setEnteredGoalText] = useState('');
-   
+  const [courseGoals, setCourseGoals] = useState([]);
+
   function goalInputHandler(enteredText) {
     setEnteredGoalText(enteredText);
   };
 
   function addGoalHandler() {
-    console.log(enteredGoalText);
+    setCourseGoals(currentCourseGoals => [...courseGoals, enteredGoalText]) // 3 dots is the spread operator
   };
 
   return (
@@ -29,7 +30,7 @@ export default function App() {
 
       </View>
       <View style={styles.goalsContainer}>
-        <Text>list of goals....</Text>
+        {courseGoals.map((goal) => <Text key={goal} style={styles.goalItem}>{goal}</Text>)}
       </View>
     </View>
   );
@@ -62,6 +63,15 @@ const styles = StyleSheet.create({
 
   goalsContainer: {
     flex: 4,
-  }
+  },
 
+  goalItem: {
+    padding: 8,
+    marginVertical: 8,
+    backgroundColor: '#5e0acc',
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 6,
+    color: 'white',
+  }
 });
