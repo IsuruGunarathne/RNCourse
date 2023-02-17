@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, FlatList } from 'react-native';
 import { Button, TextInput } from 'react-native';
 import { useState } from 'react';
 
@@ -13,11 +13,12 @@ export default function App() {
   };
 
   function addGoalHandler() {
-    setCourseGoals(currentCourseGoals => [...courseGoals, enteredGoalText]) // 3 dots is the spread operator
+    setCourseGoals(currentCourseGoals => [...courseGoals, {text: enteredGoalText,id: Math.random().toString()}]) // 3 dots is the spread operator
   };
 
   return (
     <View style={styles.container}>
+
       <StatusBar style="auto" />
       <View style={styles.inputContainer}>
         <TextInput 
@@ -29,14 +30,33 @@ export default function App() {
         <Button title="Add Goal" onPress={addGoalHandler}/>
 
       </View>
+      
+      {/* we cant put the style directly on the ScrollView becasue it 
+      doesn't have a style property. We need to wrap it in a 
+      view and then apply the style to the view */}
+
       <View style={styles.goalsContainer}>
-        {courseGoals.map((goal) =>
-        <View key={goal} style={styles.goalItem}> 
-          {/* this view is used because in IOS you can't set border radius for text */}
-          <Text style={styles.goalText}>{goal}</Text>
-        </View>
-        )}        
+        <FlatList 
+          data={courseGoals}           
+          renderItem={itemData => {
+            return(
+              <View style={styles.goalItem}>
+                <Text style={styles.goalText}>{itemData.item.text}</Text>
+              </View>
+            )
+          }}
+
+          // this is a built in function that react native provides 
+          // it generates a unique key for each item in the list
+          
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+          alwaysBounceVertical={false}/>
+          
+        
       </View>
+
     </View>
   );
 }
